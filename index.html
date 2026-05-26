@@ -1,0 +1,186 @@
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>衣服尺寸查詢</title>
+
+<style>
+    body{
+        font-family: Arial, sans-serif;
+        background:#f5f5f5;
+        padding:40px;
+    }
+
+    .box{
+        max-width:420px;
+        margin:auto;
+        background:white;
+        padding:30px;
+        border-radius:15px;
+        box-shadow:0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    h2{
+        text-align:center;
+        margin-bottom:25px;
+    }
+
+    label{
+        display:block;
+        margin-top:15px;
+        font-weight:bold;
+    }
+
+    input{
+        width:100%;
+        padding:12px;
+        margin-top:5px;
+        border:1px solid #ccc;
+        border-radius:8px;
+        font-size:16px;
+        box-sizing:border-box;
+    }
+
+    button{
+        width:100%;
+        padding:14px;
+        margin-top:25px;
+        border:none;
+        background:#007bff;
+        color:white;
+        font-size:18px;
+        border-radius:10px;
+        cursor:pointer;
+    }
+
+    button:hover{
+        background:#0056b3;
+    }
+
+    .result{
+        margin-top:25px;
+        padding:20px;
+        background:#eef7ff;
+        border-radius:10px;
+        text-align:center;
+        font-size:22px;
+        font-weight:bold;
+        color:#003366;
+    }
+
+    .detail{
+        margin-top:10px;
+        font-size:15px;
+        color:#555;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>衣服尺寸查詢</h2>
+
+    <label>身高 (cm)</label>
+    <input type="number" id="height" placeholder="例如：168">
+
+    <label>體重 (kg)</label>
+    <input type="number" id="weight" placeholder="例如：58">
+
+    <button onclick="findSize()">查詢尺寸</button>
+
+    <div class="result" id="result">
+        請輸入身高體重
+    </div>
+</div>
+
+<script>
+
+const heightTable = [
+    {max:103,size:33},
+    {max:106,size:34},
+    {max:109,size:35},
+    {max:112,size:36},
+    {max:115,size:37},
+    {max:118,size:38},
+    {max:121,size:39},
+    {max:124,size:40},
+    {max:127,size:41},
+    {max:130,size:42},
+    {max:133,size:43},
+    {max:136,size:44},
+    {max:137,size:45},
+    {max:140,size:46},
+    {max:142,size:46},
+    {max:145,size:47},
+    {max:148,size:48},
+    {max:151,size:49},
+    {max:154,size:50},
+    {max:157,size:51},
+    {max:160,size:52},
+    {max:163,size:53},
+    {max:166,size:54},
+    {max:169,size:55},
+    {max:172,size:56},
+    {max:175,size:57},
+    {max:178,size:58},
+    {max:181,size:59},
+    {max:184,size:60},
+    {max:187,size:61},
+    {max:190,size:62},
+    {max:999,size:63}
+];
+
+const weightTable = [
+    {max:17,size:7},
+    {max:25,size:8},
+    {max:32,size:9},
+    {max:39,size:10},
+    {max:44,size:10.5},
+    {max:53,size:11},
+    {max:68,size:12},
+    {max:80,size:13},
+    {max:85,size:14},
+    {max:95,size:15},
+    {max:100,size:16},
+    {max:105,size:17},
+    {max:999,size:18}
+];
+
+function getSize(value, table){
+    for(let item of table){
+        if(value <= item.max){
+            return item.size;
+        }
+    }
+    return null;
+}
+
+function findSize(){
+
+    const h = parseFloat(document.getElementById("height").value);
+    const w = parseFloat(document.getElementById("weight").value);
+
+    if(!h || !w){
+        document.getElementById("result").innerHTML =
+            "請輸入完整資料";
+        return;
+    }
+
+    const heightSize = getSize(h, heightTable);
+    const weightSize = getSize(w, weightTable);
+
+    const finalSize = Math.max(heightSize, weightSize);
+
+    document.getElementById("result").innerHTML = `
+        建議尺寸：${finalSize}
+        <div class="detail">
+            身高對應：${heightSize}<br>
+            體重對應：${weightSize}
+        </div>
+    `;
+}
+
+</script>
+
+</body>
+</html>
